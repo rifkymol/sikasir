@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.19"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.99.2",
+    "axios": "^1.15.1",
+    "clsx": "^2.1.1",
+    "idb": "^8.0.3",
+    "lucide-react": "^1.8.0",
+    "react-router-dom": "^7.14.1"
+  }
+}
