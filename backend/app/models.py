@@ -12,8 +12,8 @@ class Product(SQLModel, table=True):
     category: Optional[str] = Field(default="General", max_length=50)
     image_url: Optional[str] = Field(default=None)
     is_active: bool = Field(default=True)
-    created_at: datetime = Field(default_factory=datetime.now())
-    updated_at: datetime = Field(default_factory=datetime.now())
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
 
     order_items: List["OrderItem"] = Relationship(back_populates="product")
 
@@ -25,7 +25,7 @@ class Transaction(SQLModel, table=True):
     change_amount: float = Field(ge=0)
     payment_method: str = Field(default="cash", max_length=20)
     status: str = Field(default="completed", max_length=20)
-    timestamp: datetime = Field(default_factory=datetime.now())
+    created_at: datetime = Field(default_factory=datetime.utcnow)
     notes: Optional[str] = Field(default=None, max_length=500)
 
     order_items: List["OrderItem"] = Relationship(back_populates="transaction")

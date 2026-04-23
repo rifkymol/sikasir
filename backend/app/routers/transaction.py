@@ -1,12 +1,12 @@
 import uuid
 from datetime import datetime
-from typing import List, Optional
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 
-from app.database import get_session
-from app.models import Transaction, OrderItem, Product
-from app.schemas import CheckoutRequest, TransactionResponse, OrderItemResponse
+from ..database import get_session
+from ..models import Transaction, OrderItem, Product
+from ..schemas import CheckoutRequest, TransactionResponse
 
 router = APIRouter(prefix="/transactions", tags=["Transactions"])
 

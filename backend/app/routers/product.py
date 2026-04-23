@@ -1,4 +1,5 @@
 from typing import List, Optional
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, Depends, Query, status
 from sqlmodel import Session, select
 from ..database import get_session
@@ -64,8 +65,7 @@ async def update_product(product_id: int, product_data: ProductUpdate, session: 
     for key, value in update_data.items():
         setattr(product, key, value)
 
-    from datetime import datetime
-    product.updated_at = datetime.now()
+    product.updated_at = datetime.utcnow()
 
     session.add(product)
     session.commit()
