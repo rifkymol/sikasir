@@ -86,3 +86,26 @@ async def checkout(checkout_data: CheckoutRequest, session: Session = Depends(ge
 
     return transaction
 
+@router.get("/", response_model=List[TransactionResponse])
+async def get_transactions(
+    skip: int = 0, 
+    limit: int = 10, 
+    session: Session = Depends(get_session)
+):
+    transactions = session.exec(
+        select(Transaction)
+        .order_by(Transaction.created_at.desc())
+        .offset(skip)
+        .limit(limit)
+    ).all()
+    return transactions
+
+@router.get("/{transaction_id}", response_model=TransactionResponse)
+async def get_transaction(transaction_id: int, session: Session = Depends(get_session)):
+    transactions = session.get(Transaction, transaction_id)
+    if not transactions:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Transaction not found"
+        )
+    return transactions
