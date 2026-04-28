@@ -10,11 +10,11 @@ router = APIRouter(prefix="/products", tags=["Products"])
 
 @router.get("/", response_model=List[ProductResponse])
 async def get_products(
-  skip: int = Query(default=0, ge=0, description="Number of records to skip"), 
-  limit: int = Query(default=100, le=200, description="Maximum number of records to return"), 
-  category: Optional[str] = Query(default=None),
-  search: Optional[str] = Query(default=None, description="Search by name or SKU"),
-  session: Session = Depends(get_session)
+        skip: int = Query(default=0, ge=0, description="Number of records to skip"),
+        limit: int = Query(default=100, le=200, description="Maximum number of records to return"),
+        category: Optional[str] = Query(default=None),
+        search: Optional[str] = Query(default=None, description="Search by name or SKU"),
+        session: Session = Depends(get_session)
 ):
 
     query = select(Product).where(Product.is_active == True)

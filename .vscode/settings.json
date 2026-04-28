@@ -1,0 +1,25 @@
+{
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "[python]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    "[javascript]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    "[javascriptreact]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    "[json]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    "[css]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    }
+}
