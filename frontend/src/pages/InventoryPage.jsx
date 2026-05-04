@@ -1,16 +1,21 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { productsApi } from '../api/client'
-import { Plus, Edit, Trash2 } from 'lucide-react'
+import { Plus, Edit, Trash2, Upload } from 'lucide-react'
 import ProductForm from '../components/ProductForm'
-import { Toast, confirmAction } from '../lib/notifications'
+import ImportProductModal from '../components/ImportProductModal'
+import { Toast } from '../lib/notifications'
 import { formatRupiah } from '../utils/currency'
 import Swal from 'sweetalert2'
+import { getAuthMeta } from '../utils/authSession'
 
 export default function InventoryPage() {
   const qc = useQueryClient()
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [isFormOpen, setFormOpen] = useState(false)
+  const [isImportOpen, setImportOpen] = useState(false)
+  const sessionMeta = getAuthMeta()
+  const isAdmin = sessionMeta.role === 'admin'
 
   const { data: res, isLoading } = useQuery({ 
     queryKey: ['products', 'admin'], 
@@ -37,6 +42,7 @@ export default function InventoryPage() {
 
   const openEdit = (prod) => { setSelectedProduct(prod); setFormOpen(true) }
   const openCreate = () => { setSelectedProduct(null); setFormOpen(true) }
+  const openImport = () => { setImportOpen(true) }
 
   const handleDelete = async (product) => {
     const result = await Swal.fire({
@@ -78,9 +84,16 @@ export default function InventoryPage() {
     <div className="p-8 h-full flex flex-col">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Inventory</h1>
-        <button onClick={openCreate} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl flex gap-2 items-center transition-colors">
-          <Plus size={16}/> Tambah Produk
-        </button>
+        <div className="flex items-center gap-2">
+          {isAdmin && (
+            <button onClick={openImport} className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl flex gap-2 items-center transition-colors">
+              <Upload size={16}/> Import Produk
+            </button>
+          )}
+          <button onClick={openCreate} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl flex gap-2 items-center transition-colors">
+            <Plus size={16}/> Tambah Produk
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border overflow-hidden flex-1">
@@ -134,6 +147,12 @@ export default function InventoryPage() {
       </div>
 
       {isFormOpen && <ProductForm product={selectedProduct} onClose={() => setFormOpen(false)} />}
+      {isImportOpen && (
+        <ImportProductModal
+          onClose={() => setImportOpen(false)}
+          onSuccess={() => qc.invalidateQueries({ queryKey: ['products'] })}
+        />
+      )}
     </div>
   )
 }

@@ -30,6 +30,10 @@ export const productsApi = {
     update: (id, data) => withData(apiClient.put(`/products/${id}`, data)),
     delete: (id) => withData(apiClient.delete(`/products/${id}`)),
     toggleStatus: (id) => withData(apiClient.patch(`/products/${id}/toggle`)),
+    downloadImportTemplate: () => apiClient.get('/products/import/template', { responseType: 'blob' }),
+    importProducts: (formData) => apiClient.post('/products/import', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    }),
 }
 
 export const transactionsApi = {
