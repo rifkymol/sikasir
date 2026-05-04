@@ -1,0 +1,5 @@
+SKU,Nama Produk,Harga,Stok,Kategori,Deskripsi
+MIX-001,Produk Valid,15000,5,General,ok
+,SKU Kosong,5000,3,General,
+MIX-003,Harga Huruf,abc,4,General,
+IMP-001,Duplikat DB,10000,1,General,
