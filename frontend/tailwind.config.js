@@ -6,21 +6,18 @@ module.exports = {
     ],
     theme: {
         extend: {
-            extend: {
-                colors: {
-                    primary: {
-                        50: '#eff6ff',
-                        500: '#3b82f6',
-                        600: '#2563eb',
-                        700: '#1d4ed8',
-                    },
-                    success: '#22c55e',
-                    danger: '#ef4444',
+            colors: {
+                primary: {
+                    50: '#eff6ff',
+                    500: '#3b82f6',
+                    600: '#2563eb',
+                    700: '#1d4ed8',
                 },
-                fontFamily: {
-                    'sans': ['Inter', 'sans-serif'],
-                    'serif': ['Merriweather', 'serif'],
-                },
+                success: '#22c55e',
+                danger: '#ef4444',
+            },
+            fontFamily: {
+                sans: ['Inter', 'sans-serif'],
             },
         },
     },

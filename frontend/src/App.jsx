@@ -1,8 +1,10 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import { ShoppingCart, Package, History } from "lucide-react";
+import { ShoppingCart, Package, History, LayoutDashboard } from "lucide-react";
 import POSPage from "./pages/POSPage.jsx";
 import InventoryPage from "./pages/InventoryPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 
 function App() {
     return (
@@ -15,7 +17,7 @@ function App() {
                         className={({ isActive }) =>
                             `p-3 rounded-xl transition-colors 
                                 ${isActive 
-                                ? 'bg-primary-600 text-white' 
+                                ? 'bg-blue-600 text-white' 
                                 : 'text-gray-400 hover:bg-gray-700 hover:text-white'
                             }`
                         }
@@ -24,11 +26,24 @@ function App() {
                         <ShoppingCart size={22} />
                     </NavLink>
                     <NavLink 
+                        to="/dashboard" 
+                        className={({ isActive }) =>
+                            `p-3 rounded-xl transition-colors 
+                                ${isActive 
+                                ? 'bg-blue-600 text-white' 
+                                : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                            }`
+                        }
+                        title="Dashboard"
+                    >
+                        <LayoutDashboard size={22} />
+                    </NavLink>
+                    <NavLink 
                         to="/inventory" 
                         className={({ isActive }) =>
                             `p-3 rounded-xl transition-colors 
                                 ${isActive 
-                                ? 'bg-primary-600 text-white' 
+                                ? 'bg-blue-600 text-white' 
                                 : 'text-gray-400 hover:bg-gray-700 hover:text-white'
                             }`
                         }
@@ -55,9 +70,10 @@ function App() {
             {/* Main Content */}
             <main className="flex-1 overflow-hidden">
                 <Routes>
-                    <Route path="/" element={<POSPage />} />
-                    <Route path="/inventory" element={<InventoryPage />} />
-                    <Route path="/history" element={<HistoryPage />} />
+                    <Route path="/" element={<ErrorBoundary><POSPage /></ErrorBoundary>} />
+                    <Route path="/dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
+                    <Route path="/inventory" element={<ErrorBoundary><InventoryPage /></ErrorBoundary>} />
+                    <Route path="/history" element={<ErrorBoundary><HistoryPage /></ErrorBoundary>} />
                 </Routes>
             </main>
         </div>

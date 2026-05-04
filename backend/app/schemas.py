@@ -8,7 +8,7 @@ from pydantic import BaseModel, field_validator
 # ─────────────────────────────────────────────────────────────
 class ProductCreate(BaseModel):
     name: str
-    despcription: Optional[str] = None
+    description: Optional[str] = None
     price: float
     stock: int
     sku: str
@@ -21,6 +21,20 @@ class ProductCreate(BaseModel):
         if v <= 0:
             raise ValueError("Price must be greater than 0")
         return round(v, 2)
+
+    @field_validator("name", "sku")
+    @classmethod
+    def required_text_must_not_be_blank(cls, v: str):
+        if not v or not v.strip():
+            raise ValueError("This field cannot be empty")
+        return v.strip()
+
+    @field_validator("stock")
+    @classmethod
+    def stock_must_not_be_negative(cls, v: int):
+        if v < 0:
+            raise ValueError("Stock cannot be negative")
+        return v
   
 class ProductUpdate(BaseModel):
     name: Optional[str] = None

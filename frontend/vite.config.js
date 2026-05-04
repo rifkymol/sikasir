@@ -5,15 +5,13 @@ export default defineConfig({
     plugins: [react()],
     server: {
         port: 5173,
-        // block for cross-origin requests to the backend
         proxy: {
             '/api': {
-                target: 'http://localhost:8000',
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, '')
+                target: process.env.VITE_DEV_API_TARGET || 'http://localhost:8080',
+                changeOrigin: true
             },
             '/ws': {
-                target: 'ws://localhost:8000',
+                target: (process.env.VITE_DEV_WS_TARGET || 'ws://localhost:8080'),
                 ws: true,
             }
         },

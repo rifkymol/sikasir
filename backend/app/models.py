@@ -19,7 +19,7 @@ class Product(SQLModel, table=True):
 
 class Transaction(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    transaction_code: str = Field(unique=True, index=True, max_length=20)
+    transaction_code: str = Field(unique=True, index=True, max_length=30)
     total_amount: float = Field(ge=0)
     amount_paid: float = Field(ge=0)
     change_amount: float = Field(ge=0)

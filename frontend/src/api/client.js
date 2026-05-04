@@ -1,78 +1,41 @@
-import axios from "axios";
+import apiClient from '../services/api'
 
-const apiClient = axios.create({
-    baseURL: "/api",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    timeout: 5000, // 5 seconds timeout
-});
+export default apiClient
 
-apiClient.interceptors.response.use(
-    config => config,
-    error => {
-        if (error.response) {
-            // Handle specific status codes
-            switch (error.response.status) {
-                case 401:
-                    // Handle unauthorized error
-                    break;
-                case 403:
-                    // Handle forbidden error
-                    break;
-                case 404:
-                    // Handle not found error
-                    break;
-                case 500:
-                    // Handle internal server error
-                    break;
-                default:
-                    // Handle other errors
-                    break;
-            }
-        }
-        return Promise.reject(error);
-    }
-);
-
-apiClient.interceptors.request.use(
-    response => response,
-    error => {
-        if (!error.response) {
-            // Handle network errors
-            console.error("Network error:", error);
-        }
-        return Promise.reject(error);
-    }
-);
-
-export default apiClient;
-
-// ── Response Interceptor ─────────────────────────────────────
-
-apiClient.interceptors.response.use(
-    response => response,
-    error => {
-        if (error.response) {
-            console.warn("API error:", error.response.status, error.response.data);
-        }
-        return Promise.reject(error);
-    }
-);
-
-export default apiClient;
+const withData = (request) => request.then((response) => ({
+    ...response,
+    data: response.data?.data ?? response.data,
+}))
 
 // ── API Helper Functions ─────────────────────────────────────
 export const productsAPI = {
-    getProducts: (params) => apiClient.get("/products", { params }),
-    getProduct: (id) => apiClient.get(`/products/${id}`),
-    createProduct: (data) => apiClient.post("/products", data),
-    updateProduct: (id, data) => apiClient.put(`/products/${id}`, data),
-    deleteProduct: (id) => apiClient.delete(`/products/${id}`),
-};
+    getProducts: (params) => withData(apiClient.get('/products/', { params })),
+    getProduct: (id) => withData(apiClient.get(`/products/${id}`)),
+    createProduct: (data) => withData(apiClient.post('/products/', data)),
+    updateProduct: (id, data) => withData(apiClient.put(`/products/${id}`, data)),
+    deleteProduct: (id) => withData(apiClient.delete(`/products/${id}`)),
+}
 
 export const transactionsAPI = {
-    checkout: (data) => apiClient.post("/transactions/checkout", data),
-    getTransactions: (params) => apiClient.get("/transactions", { params }),
-    getTransaction: (id) => apiClient.get(`/transactions/${id}`),
-};
+    checkout: (data) => withData(apiClient.post('/transactions/checkout', data)),
+    getTransactions: (params) => withData(apiClient.get('/transactions/', { params })),
+    getTransaction: (id) => withData(apiClient.get(`/transactions/${id}`)),
+}
+
+// ── Aliases (used by pages and components) ───────────────────
+export const productsApi = {
+    getAll: (params) => withData(apiClient.get('/products/', { params })),
+    getOne: (id) => withData(apiClient.get(`/products/${id}`)),
+    create: (data) => withData(apiClient.post('/products/', data)),
+    update: (id, data) => withData(apiClient.put(`/products/${id}`, data)),
+    delete: (id) => withData(apiClient.delete(`/products/${id}`)),
+    toggleStatus: (id) => withData(apiClient.patch(`/products/${id}/toggle`)),
+}
+
+export const transactionsApi = {
+    checkout: (data) => withData(apiClient.post('/transactions/checkout', data)),
+    getAll: (params) => withData(apiClient.get('/transactions/', { params })),
+    getOne: (id) => withData(apiClient.get(`/transactions/${id}`)),
+}
+
+export const txApi = transactionsApi
