@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.encoders import jsonable_encoder
 
-from .routers import product, transaction
+from .routers import admin, product, transaction
 from .websocket_manager import manager
 from .database import create_db_and_tables
 
@@ -60,6 +60,7 @@ app.add_middleware(
 
 app.include_router(product.router, prefix="/api")
 app.include_router(transaction.router, prefix="/api")
+app.include_router(admin.router, prefix="/api")
 
 # WebSocket end point for real-time updates
 @app.websocket("/ws/inventory")

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { showError } from '../lib/notifications'
+import { getAuthToken } from '../utils/authSession'
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || '/api',
@@ -24,5 +25,14 @@ api.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+api.interceptors.request.use((config) => {
+    const token = getAuthToken()
+    if (token) {
+        config.headers = config.headers || {}
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+})
 
 export default api

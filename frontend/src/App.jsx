@@ -1,9 +1,10 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import { ShoppingCart, Package, History, LayoutDashboard } from "lucide-react";
+import { ShoppingCart, Package, History, LayoutDashboard, ShieldAlert } from "lucide-react";
 import POSPage from "./pages/POSPage.jsx";
 import InventoryPage from "./pages/InventoryPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 
 function App() {
@@ -65,6 +66,20 @@ function App() {
                     >
                     <History size={22} />
                 </NavLink>
+
+                <NavLink
+                    to="/settings"
+                    className={({ isActive }) =>
+                        `p-3 rounded-xl transition-colors
+                            ${isActive
+                            ? 'bg-red-600 text-white'
+                            : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                        }`
+                    }
+                    title="Admin Settings"
+                >
+                    <ShieldAlert size={22} />
+                </NavLink>
             </nav>
             
             {/* Main Content */}
@@ -74,6 +89,7 @@ function App() {
                     <Route path="/dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
                     <Route path="/inventory" element={<ErrorBoundary><InventoryPage /></ErrorBoundary>} />
                     <Route path="/history" element={<ErrorBoundary><HistoryPage /></ErrorBoundary>} />
+                    <Route path="/settings" element={<ErrorBoundary><SettingsPage /></ErrorBoundary>} />
                 </Routes>
             </main>
         </div>

@@ -110,3 +110,23 @@ class TransactionResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ResetDatabaseRequest(BaseModel):
+    confirmation: str
+
+
+class AdminSessionResponse(BaseModel):
+    username: str
+    role: str
+
+
+class ResetLogResponse(BaseModel):
+    id: int
+    performed_by: str
+    performed_role: str
+    performed_at: datetime
+    deleted_counts: dict
+
+    class Config:
+        from_attributes = True

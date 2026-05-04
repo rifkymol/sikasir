@@ -1,6 +1,8 @@
 from typing import Optional, List
 from datetime import datetime
 from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy import Column
+from sqlalchemy.types import JSON
 
 class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -41,3 +43,11 @@ class OrderItem(SQLModel, table=True):
 
     product: Optional[Product] = Relationship(back_populates="order_items")
     transaction: Optional[Transaction] = Relationship(back_populates="order_items")
+
+
+class ResetLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    performed_by: str = Field(max_length=100, index=True)
+    performed_role: str = Field(max_length=20, default="admin")
+    performed_at: datetime = Field(default_factory=datetime.utcnow, index=True)
+    deleted_counts: dict = Field(default={}, sa_column=Column(JSON, nullable=False))

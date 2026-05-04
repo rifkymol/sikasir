@@ -39,3 +39,9 @@ export const transactionsApi = {
 }
 
 export const txApi = transactionsApi
+
+export const adminApi = {
+    getSession: () => withData(apiClient.get('/admin/session')),
+    resetDatabase: (data) => withData(apiClient.post('/admin/reset-database', data)),
+    getResetLogs: (params) => withData(apiClient.get('/admin/reset-logs', { params })),
+}
