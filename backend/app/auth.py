@@ -60,3 +60,5 @@ def require_admin_actor(actor: AuthActor = Depends(get_current_actor)) -> AuthAc
             detail="Akses ditolak. Hanya admin yang bisa melakukan reset.",
         )
     return actor
+
+
